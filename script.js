@@ -3,7 +3,7 @@
 function player(cell) {
   const cellClass = cell;
   return {
-    cellClass
+    cellClass,
   };
 }
 
@@ -20,14 +20,14 @@ const gameBoard = (function () {
     [2, 4, 6],
     [0, 3, 6],
     [1, 4, 7],
-    [2, 5, 8]
+    [2, 5, 8],
   ];
 
   let playerTurn; // boolean to switch player
-  const board = document.getElementById('board')
+  const board = document.getElementById("board");
   const cellElements = document.querySelectorAll("[data-cell]");
 
-  //   functions  
+  //   functions
 
   function clearBoard() {
     cellElements.forEach((cell) => {
@@ -61,7 +61,7 @@ const gameBoard = (function () {
     cellElements,
     clearBoard,
     swapPlayers,
-    setCellFunctions
+    setCellFunctions,
   };
 })();
 
@@ -93,7 +93,7 @@ const displayController = (function () {
   return {
     setGameCompleteText,
     showGameCompleteScreen,
-    hideGameCompleteScreen
+    hideGameCompleteScreen,
   };
 })();
 
@@ -114,11 +114,12 @@ function startGame() {
 }
 
 function endGame(draw) {
-  
   if (draw) {
     displayController.setGameCompleteText("Draw!");
   } else {
-    displayController.setGameCompleteText(`${gameBoard.playerTurn ? "O" : "X"} Wins!`);
+    displayController.setGameCompleteText(
+      `${gameBoard.playerTurn ? "O" : "X"} Wins!`
+    );
   }
   displayController.showGameCompleteScreen();
 }
@@ -138,6 +139,7 @@ function handleClick(e) {
   }
   //   check for Draw
   else if (isDraw()) {
+    console.log("Game is Draw!!!");
     endGame(true);
   } else {
     //   Switch Turns/Players
@@ -146,7 +148,7 @@ function handleClick(e) {
   }
 }
 
-function placeMark(cell, currentClass){
+function placeMark(cell, currentClass) {
   cell.classList.add(currentClass);
 }
 
@@ -176,12 +178,23 @@ function checkWin(currentClass) {
   });
 }
 
-function isDraw(){
-//   contains array destructuring
-  return [...gameBoard.cellElements].every((cell) =>{
-    return cell.classList.contains(playerX.cellClass) || 
-    cell.classList.contains(playerCircle.cellclass)
-  })
+function isDraw() {
+  var arr = gameBoard.cellElements;
+
+  let count = 0;
+
+  arr.forEach((a) => {
+    if (
+      a.classList.contains(playerCircle.cellClass) ||
+      a.classList.contains(playerX.cellClass)
+    ) {
+      count += 1;
+    }
+  });
+
+  console.log(count == gameBoard.cellElements.length);
+  return count == gameBoard.cellElements.length;
+
 }
 
 // Function Calls
